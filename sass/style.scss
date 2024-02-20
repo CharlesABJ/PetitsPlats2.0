@@ -1,0 +1,133 @@
+@import "_reset.scss";
+@import "_header.scss";
+
+main {
+  background-color: $main-color;
+  padding: 1.5rem 102px 102px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.filters-and-results {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  &.list-is-open {
+    align-items: start;
+  }
+  .filters {
+    width: 55%;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 3rem;
+    div > p {
+      font-size: 1rem;
+      padding: 1rem;
+      background: #fff;
+      border-radius: 11px;
+      border: none;
+      position: relative;
+      cursor: pointer;
+      &.list-is-open {
+        border-radius: 11px 11px 0 0;
+      }
+    }
+    .searchform-and-list {
+      display: none;
+      margin-top: -0.5rem;
+      background-color: #fff;
+      max-height: 385px;
+      overflow: scroll;
+      border-radius: 0 0 11px 11px;
+      form {
+        padding: 1rem;
+        input {
+          width: 100%;
+          height: 36px;
+          border: none;
+          border: 1px solid #c6c6c6;
+          border-radius: 2px;
+          outline: $primary-color;
+          padding: 0.5rem;
+          font-size: 14px;
+          color: #7a7a7a;
+        }
+      }
+      li {
+        padding: 1rem;
+        transition: 0.3s ease-in-out;
+        color: #1b1b1b;
+        font-size: 14px;
+        cursor: pointer;
+        &.active {
+          margin-bottom: 1rem;
+        }
+        &:hover {
+          background-color: $primary-color;
+        }
+      }
+
+      &.active {
+        display: block;
+      }
+    }
+  }
+}
+
+.cards-zone {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  .card {
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    height: 860px;
+    border-radius: 21px;
+    .cover {
+      height: 35%;
+      position: relative;
+      border-radius: 21px 21px 0 0;
+      .cooking-time {
+        border-radius: 14px;
+        background-color: $primary-color;
+        padding: 0.5rem 1.3rem;
+        position: absolute;
+        right: 22px;
+        top: 21px;
+      }
+      img {
+        border-radius: 21px 21px 0 0;
+      }
+    }
+    .text-content {
+      height: 65%;
+      padding: 2rem;
+      overflow: hidden;
+      background-color: #fff;
+      border-radius: 0 0 21px 21px;
+      h3 {
+        margin-block: 2rem 1rem;
+        color: #7a7a7a;
+        text-transform: uppercase;
+      }
+      .recipe-content {
+        max-height: 107px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .ingredients-list {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+        h4 {
+          color: #1b1b1b;
+        }
+        p {
+          color: #7a7a7a;
+        }
+      }
+    }
+  }
+}

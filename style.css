@@ -1,0 +1,220 @@
+@import url("https://fonts.googleapis.com/css2?family=Anton&family=Manrope:wght@200..800&display=swap");
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Manrope", sans-serif;
+}
+
+img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+ul {
+  list-style: none;
+}
+
+header {
+  background-image: url("../images/header-banner.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 80vh;
+  padding: 3rem 4rem;
+}
+header .logo {
+  display: flex;
+  width: 13rem;
+}
+header .title-and-searchform {
+  height: 70vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+}
+header .title-and-searchform h1 {
+  font-size: 2.75rem;
+  width: 70%;
+  font-weight: bold;
+  margin: 0 auto;
+  font-family: "Anton", sans-serif;
+  color: #ffd15b;
+  text-align: center;
+}
+header .title-and-searchform form {
+  position: relative;
+  width: 80%;
+  display: flex;
+  border-radius: 10px;
+}
+header .title-and-searchform form label {
+  width: 100%;
+}
+header .title-and-searchform form label input {
+  height: 4rem;
+  font-size: 1.2rem;
+  width: 100%;
+  padding: 0.5rem 2rem;
+  border: none;
+  border-radius: 5px;
+  margin-right: 1rem;
+}
+header .title-and-searchform form label input:focus-visible {
+  outline: 2px dashed #ffd15b;
+}
+header .title-and-searchform form label input::placeholder {
+  color: #7a7a7a;
+  font-size: 1.2rem;
+}
+header .title-and-searchform form button {
+  position: absolute;
+  top: 50%;
+  right: 0.5rem;
+  transform: translateY(-50%);
+  height: 75%;
+  padding: 0.75rem;
+  border: none;
+  border-radius: 10px;
+  background-color: #000;
+  cursor: pointer;
+  outline: 2px dashed #ffd15b;
+}
+header .title-and-searchform form button:focus-visible {
+  outline-color: #ffd15b;
+  outline: 2px dashed #ffd15b;
+}
+
+main {
+  background-color: #f5f5f5;
+  padding: 1.5rem 102px 102px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.filters-and-results {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+}
+.filters-and-results.list-is-open {
+  align-items: start;
+}
+.filters-and-results .filters {
+  width: 55%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 3rem;
+}
+.filters-and-results .filters div > p {
+  font-size: 1rem;
+  padding: 1rem;
+  background: #fff;
+  border-radius: 11px;
+  border: none;
+  position: relative;
+  cursor: pointer;
+}
+.filters-and-results .filters div > p.list-is-open {
+  border-radius: 11px 11px 0 0;
+}
+.filters-and-results .filters .searchform-and-list {
+  display: none;
+  margin-top: -0.5rem;
+  background-color: #fff;
+  max-height: 385px;
+  overflow: scroll;
+  border-radius: 0 0 11px 11px;
+}
+.filters-and-results .filters .searchform-and-list form {
+  padding: 1rem;
+}
+.filters-and-results .filters .searchform-and-list form input {
+  width: 100%;
+  height: 36px;
+  border: none;
+  border: 1px solid #c6c6c6;
+  border-radius: 2px;
+  outline: #ffd15b;
+  padding: 0.5rem;
+  font-size: 14px;
+  color: #7a7a7a;
+}
+.filters-and-results .filters .searchform-and-list li {
+  padding: 1rem;
+  transition: 0.3s ease-in-out;
+  color: #1b1b1b;
+  font-size: 14px;
+  cursor: pointer;
+}
+.filters-and-results .filters .searchform-and-list li.active {
+  margin-bottom: 1rem;
+}
+.filters-and-results .filters .searchform-and-list li:hover {
+  background-color: #ffd15b;
+}
+.filters-and-results .filters .searchform-and-list.active {
+  display: block;
+}
+
+.cards-zone {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+.cards-zone .card {
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  height: 860px;
+  border-radius: 21px;
+}
+.cards-zone .card .cover {
+  height: 35%;
+  position: relative;
+  border-radius: 21px 21px 0 0;
+}
+.cards-zone .card .cover .cooking-time {
+  border-radius: 14px;
+  background-color: #ffd15b;
+  padding: 0.5rem 1.3rem;
+  position: absolute;
+  right: 22px;
+  top: 21px;
+}
+.cards-zone .card .cover img {
+  border-radius: 21px 21px 0 0;
+}
+.cards-zone .card .text-content {
+  height: 65%;
+  padding: 2rem;
+  overflow: hidden;
+  background-color: #fff;
+  border-radius: 0 0 21px 21px;
+}
+.cards-zone .card .text-content h3 {
+  margin-block: 2rem 1rem;
+  color: #7a7a7a;
+  text-transform: uppercase;
+}
+.cards-zone .card .text-content .recipe-content {
+  max-height: 107px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.cards-zone .card .text-content .ingredients-list {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+.cards-zone .card .text-content .ingredients-list h4 {
+  color: #1b1b1b;
+}
+.cards-zone .card .text-content .ingredients-list p {
+  color: #7a7a7a;
+}
+
+/*# sourceMappingURL=style.css.map */
