@@ -1,4 +1,5 @@
 import { recipes } from "./recipes.js";
+
 let currentRecipes = [...recipes];
 const cardsZone = document.querySelector(".cards-zone");
 const filtersIngredients = document.getElementById("ingredients");
@@ -6,22 +7,22 @@ const filtersAppliances = document.getElementById("appliances");
 const filtersUstensils = document.getElementById("ustensils");
 
 // Obtenir une liste d'ingrédients
-function getIngredients(recipes) {
-  const ingredients = recipes.flatMap((recipe) =>
+function getIngredients(currentRecipes) {
+  const ingredients = currentRecipes.flatMap((recipe) =>
     recipe.ingredients.map((ingredient) => ingredient.ingredient)
   );
   return [...new Set(ingredients)];
 }
 
 // Obtenir une liste d'appareils
-function getAppliances(recipes) {
-  const appliances = recipes.map((recipe) => recipe.appliance);
+function getAppliances(currentRecipes) {
+  const appliances = currentRecipes.map((recipe) => recipe.appliance);
   return [...new Set(appliances)];
 }
 
 // Obtenir une liste d'ustensiles
-function getUstensils(recipes) {
-  const ustensils = recipes.flatMap((recipe) => recipe.ustensils);
+function getUstensils(currentRecipes) {
+  const ustensils = currentRecipes.flatMap((recipe) => recipe.ustensils);
   return [...new Set(ustensils)];
 }
 
@@ -57,19 +58,57 @@ function createUstensilsList(ustensils) {
 
 function getFilters() {
   const nbOfRecipes = document.querySelector(".nb-of-recipes h2");
+
+  nbOfRecipes.innerHTML = `${currentRecipes.length} recettes`;
+
   const ingredients = getIngredients(currentRecipes);
   const appliances = getAppliances(currentRecipes);
   const ustensils = getUstensils(currentRecipes);
 
-  nbOfRecipes.innerHTML = `${currentRecipes.length} recettes`;
   filtersIngredients.innerHTML = createIngredientsList(ingredients);
   filtersAppliances.innerHTML = createAppliancesList(appliances);
   filtersUstensils.innerHTML = createUstensilsList(ustensils);
+}
 
+let activeFilters = {
+  ingredients: new Set(),
+  appliances: new Set(),
+  ustensils: new Set(),
+};
+
+function applyFilters() {
+  currentRecipes = recipes.filter(
+    (recipe) =>
+      Array.from(activeFilters.ingredients).every((activeIngredient) =>
+        recipe.ingredients.some(
+          (ingredient) => ingredient.ingredient === activeIngredient
+        )
+      ) &&
+      Array.from(activeFilters.appliances).every(
+        (activeAppliance) => recipe.appliance === activeAppliance
+      ) &&
+      Array.from(activeFilters.ustensils).every((activeUstensil) =>
+        recipe.ustensils.includes(activeUstensil)
+      )
+  );
+  getDishes();
+}
+
+function getActivesFilters() {
   const filters = document.querySelectorAll(".filters li");
+  const ingredientsFiltersActives = document.querySelector(
+    ".ingredients-filters-actives"
+  );
+  const appliancesFiltersActives = document.querySelector(
+    ".appliances-filters-actives"
+  );
+  const ustensilsFiltersActives = document.querySelector(
+    ".ustensils-filters-actives"
+  );
+
   filters.forEach((filter) => {
-    filter.addEventListener("click", () => {
-      const filterAttribute = filter.getAttribute(
+    filter.addEventListener("click", function () {
+      const filterIngredient = filter.getAttribute(
         "filter-ingredients-attribute"
       );
       const filterAppliance = filter.getAttribute(
@@ -77,23 +116,82 @@ function getFilters() {
       );
       const filterUstensil = filter.getAttribute("filter-ustensils-attribute");
 
-      if (filterAttribute) {
-        currentRecipes = currentRecipes.filter((recipe) =>
-          recipe.ingredients.some(
-            (ingredient) => ingredient.ingredient === filterAttribute
-          )
-        );
-      } else if (filterAppliance) {
-        currentRecipes = currentRecipes.filter(
-          (recipe) => recipe.appliance === filterAppliance
-        );
-      } else if (filterUstensil) {
-        currentRecipes = currentRecipes.filter((recipe) =>
-          recipe.ustensils.includes(filterUstensil)
-        );
+      // Activer ou désactiver le filtre sélectionné.
+      filter.classList.toggle("active");
+
+      //Ecrire et supprimer les filtres
+      if (filter.classList.contains("active")) {
+        if (filter.getAttribute("filter-ingredients-attribute")) {
+          ingredientsFiltersActives.innerHTML += `<li filter-ingredients-attribute="${filter.innerHTML}" ><span>${filter.innerHTML}</span> <span  class="croce">x</span> </li>`;
+          deleteFilter();
+        } else if (filter.getAttribute("filter-appliances-attribute")) {
+          appliancesFiltersActives.innerHTML += `<li filter-appliances-attribute="${filter.innerHTML}">${filter.innerHTML}</li>`;
+        } else if (filter.getAttribute("filter-ustensils-attribute")) {
+          ustensilsFiltersActives.innerHTML += `<li filter-ustensils-attribute ="${filter.innerHTML}">${filter.innerHTML}</li>`;
+        }
+      } else {
+        const activeFilters = document.querySelectorAll(".filters-actives li");
+        activeFilters.forEach((activeFilter) => {
+          if (activeFilter.innerHTML === filter.innerHTML) {
+            activeFilter.remove();
+          }
+        });
       }
 
-      getDishes();
+      if (filterIngredient) {
+        if (filter.classList.contains("active")) {
+          activeFilters.ingredients.add(filterIngredient);
+        } else {
+          activeFilters.ingredients.delete(filterIngredient);
+        }
+      }
+
+      if (filterAppliance) {
+        if (filter.classList.contains("active")) {
+          activeFilters.appliances.add(filterAppliance);
+        } else {
+          activeFilters.appliances.delete(filterAppliance);
+        }
+      }
+
+      if (filterUstensil) {
+        if (filter.classList.contains("active")) {
+          activeFilters.ustensils.add(filterUstensil);
+        } else {
+          activeFilters.ustensils.delete(filterUstensil);
+        }
+      }
+
+      applyFilters();
+    });
+  });
+}
+
+function deleteFilter() {
+  const croceActiveFilters = document.querySelectorAll(
+    ".filters-actives li .croce"
+  );
+  const activeFiltersElements = document.querySelectorAll("#ingredients li");
+
+  croceActiveFilters.forEach((croceActiveFilter) => {
+    croceActiveFilter.addEventListener("click", function () {
+      const filterToDelete = croceActiveFilter.parentElement.getAttribute(
+        "filter-ingredients-attribute"
+      );
+      activeFilters.ingredients.delete(filterToDelete);
+      activeFiltersElements.forEach((activeFilter) => {
+        // console.log(croceActiveFilter.previousSibling.innerHTML);
+        if (
+          activeFilter.innerHTML ===
+          croceActiveFilter.parentElement.getAttribute(
+            "filter-ingredients-attribute"
+          )
+        ) {
+          activeFilter.classList.remove("active");
+        }
+      });
+      croceActiveFilter.parentElement.remove();
+      applyFilters();
     });
   });
 }
@@ -202,6 +300,9 @@ filtersToggle.forEach((filter) => {
 
 function init() {
   getFilters();
+  applyFilters();
+  getActivesFilters();
+
   getDishes();
 }
 

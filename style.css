@@ -151,10 +151,14 @@ main {
   cursor: pointer;
 }
 .filters-and-results .filters .searchform-and-list li.active {
+  background-color: #ffd15b;
   margin-bottom: 1rem;
 }
-.filters-and-results .filters .searchform-and-list li:hover {
+.filters-and-results .filters .searchform-and-list li.active:hover {
   background-color: #ffd15b;
+}
+.filters-and-results .filters .searchform-and-list li:hover {
+  background-color: #ffdf8e;
 }
 .filters-and-results .filters .searchform-and-list.active {
   display: block;
@@ -215,6 +219,36 @@ main {
 }
 .cards-zone .card .text-content .ingredients-list p {
   color: #7a7a7a;
+}
+
+@media screen and (max-width: 1250px) {
+  main {
+    padding: 4rem;
+  }
+  .cards-zone {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media screen and (max-width: 768px) {
+  main {
+    padding: 2rem 1rem;
+  }
+  .filters-and-results {
+    flex-direction: column;
+    align-items: start;
+  }
+  .filters-and-results .filters {
+    width: 100%;
+  }
+  .filters-and-results .filters .searchform-and-list {
+    max-height: 285px;
+  }
+  .cards-zone {
+    grid-template-columns: 1fr;
+  }
+  .cards-zone .card .text-content {
+    padding: 1rem;
+  }
 }
 
 /*# sourceMappingURL=style.css.map */

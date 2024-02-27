@@ -61,10 +61,14 @@ main {
         font-size: 14px;
         cursor: pointer;
         &.active {
+          background-color: $primary-color;
           margin-bottom: 1rem;
+          &:hover {
+            background-color: $primary-color;
+          }
         }
         &:hover {
-          background-color: $primary-color;
+          background-color: lighten($primary-color, 10%);
         }
       }
 
@@ -128,6 +132,37 @@ main {
           color: #7a7a7a;
         }
       }
+    }
+  }
+}
+
+@media screen and (max-width: 1250px) {
+  main {
+    padding: 4rem;
+  }
+  .cards-zone {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media screen and (max-width: 768px) {
+  main {
+    padding: 2rem 1rem;
+  }
+  .filters-and-results {
+    flex-direction: column;
+    align-items: start;
+    .filters {
+      width: 100%;
+      .searchform-and-list {
+        max-height: 285px;
+      }
+    }
+  }
+  .cards-zone {
+    grid-template-columns: 1fr;
+    .card .text-content {
+      padding: 1rem;
     }
   }
 }
