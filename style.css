@@ -164,6 +164,13 @@ main {
   display: block;
 }
 
+h2.no-results {
+  margin: 4rem auto 0;
+}
+h2.no-results span {
+  color: #c18b00;
+}
+
 .cards-zone {
   display: grid;
   grid-template-columns: repeat(3, 1fr);

@@ -78,7 +78,12 @@ main {
     }
   }
 }
-
+h2.no-results {
+  margin: 4rem auto 0;
+  span {
+    color: darken($color: $primary-color, $amount: 30);
+  }
+}
 .cards-zone {
   display: grid;
   grid-template-columns: repeat(3, 1fr);

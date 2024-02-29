@@ -91,6 +91,7 @@ function applyFilters() {
         recipe.ustensils.includes(activeUstensil)
       )
   );
+
   getDishes();
 }
 
@@ -122,17 +123,34 @@ function getActivesFilters() {
       //Ecrire et supprimer les filtres
       if (filter.classList.contains("active")) {
         if (filter.getAttribute("filter-ingredients-attribute")) {
-          ingredientsFiltersActives.innerHTML += `<li filter-ingredients-attribute="${filter.innerHTML}" ><span>${filter.innerHTML}</span> <span  class="croce">x</span> </li>`;
-          deleteFilter();
+          ingredientsFiltersActives.innerHTML += `<li data-attribute="ingredients" filter-ingredients-attribute="${filter.innerHTML}"><span>${filter.innerHTML}</span> <i class="fa-solid fa-xmark"></i> </li>`;
+          deleteFilter(
+            "ingredients",
+            activeFilters,
+            document.querySelectorAll("#ingredients li")
+          );
         } else if (filter.getAttribute("filter-appliances-attribute")) {
-          appliancesFiltersActives.innerHTML += `<li filter-appliances-attribute="${filter.innerHTML}">${filter.innerHTML}</li>`;
+          appliancesFiltersActives.innerHTML += `<li data-attribute="appliances" filter-appliances-attribute="${filter.innerHTML}"><span>${filter.innerHTML}</span> <i class="fa-solid fa-xmark"></i> </li>`;
+          deleteFilter(
+            "appliances",
+            activeFilters,
+            document.querySelectorAll("#appliances li")
+          );
         } else if (filter.getAttribute("filter-ustensils-attribute")) {
-          ustensilsFiltersActives.innerHTML += `<li filter-ustensils-attribute ="${filter.innerHTML}">${filter.innerHTML}</li>`;
+          ustensilsFiltersActives.innerHTML += `<li data-attribute="ustensils" filter-ustensils-attribute ="${filter.innerHTML}"><span>${filter.innerHTML}</span> <i class="fa-solid fa-xmark"></i> </li>`;
+          deleteFilter(
+            "ustensils",
+            activeFilters,
+            document.querySelectorAll("#ustensils li")
+          );
         }
       } else {
         const activeFilters = document.querySelectorAll(".filters-actives li");
         activeFilters.forEach((activeFilter) => {
-          if (activeFilter.innerHTML === filter.innerHTML) {
+          if (
+            activeFilter.textContent.replace(" x", "").trim() ===
+            filter.innerHTML.trim()
+          ) {
             activeFilter.remove();
           }
         });
@@ -167,26 +185,19 @@ function getActivesFilters() {
   });
 }
 
-function deleteFilter() {
+function deleteFilter(filterType, activeFilters, activeFiltersElements) {
   const croceActiveFilters = document.querySelectorAll(
-    ".filters-actives li .croce"
+    ".filters-actives li .fa-xmark"
   );
-  const activeFiltersElements = document.querySelectorAll("#ingredients li");
 
   croceActiveFilters.forEach((croceActiveFilter) => {
     croceActiveFilter.addEventListener("click", function () {
       const filterToDelete = croceActiveFilter.parentElement.getAttribute(
-        "filter-ingredients-attribute"
+        `filter-${filterType}-attribute`
       );
-      activeFilters.ingredients.delete(filterToDelete);
+      activeFilters[filterType].delete(filterToDelete);
       activeFiltersElements.forEach((activeFilter) => {
-        // console.log(croceActiveFilter.previousSibling.innerHTML);
-        if (
-          activeFilter.innerHTML ===
-          croceActiveFilter.parentElement.getAttribute(
-            "filter-ingredients-attribute"
-          )
-        ) {
+        if (activeFilter.innerHTML === filterToDelete) {
           activeFilter.classList.remove("active");
         }
       });
@@ -196,21 +207,9 @@ function deleteFilter() {
   });
 }
 
-const searchInput = document.getElementById("searchbar");
-searchInput.addEventListener("input", (e) => {
-  const searchValue = e.target.value.toLowerCase();
-  // Si l'utilsateur supprime le contenu de l'input est vide, on réinitialise la liste des recettes
-  if (searchValue === "") {
-    currentRecipes = [...recipes];
-  } else if (searchValue.length < 3) return;
-  currentRecipes = currentRecipes.filter((recipe) =>
-    recipe.name.toLowerCase().includes(searchValue)
-  );
-  getDishes();
-});
-
 function getDishes() {
   console.time("getDishes");
+  //JSBENCh
 
   try {
     let cards = ""; // Créer une variable pour stocker toutes les cartes
@@ -298,6 +297,63 @@ filtersToggle.forEach((filter) => {
   });
 });
 
+// Filtre de recherche de recettes
+const forms = document.querySelectorAll("form");
+forms.forEach((form) => {
+  form.addEventListener("submit", (e) => e.preventDefault());
+});
+const searchInput = document.getElementById("searchbar");
+
+function handleInput(e) {
+  const searchValue = e.target.value.toLowerCase();
+  let noResults = document.querySelector(".no-results");
+  noResults.innerHTML = "";
+  // Si l'utilsateur supprime le contenu de l'input est vide, on réinitialise la liste des recettes
+  if (searchValue === "") {
+    currentRecipes = [...recipes];
+  } else if (searchValue.length < 3) {
+    currentRecipes = [...recipes];
+    return;
+  }
+  currentRecipes = recipes.filter(
+    (recipe) =>
+      recipe.name.toLowerCase().includes(searchValue) ||
+      recipe.description.toLowerCase().includes(searchValue) ||
+      recipe.ingredients.some((ingredient) =>
+        ingredient.ingredient.toLowerCase().includes(searchValue)
+      )
+  );
+  if (currentRecipes.length === 0) {
+    noResults.innerHTML = `Aucune recette ne contient ‘<span>${e.target.value}</span>’ vous pouvez chercher « <span>tarte aux pommes</span> », « <span>poisson</span> », etc.`;
+  }
+  getDishes();
+}
+
+searchInput.addEventListener("input", handleInput);
+searchInput.addEventListener("change", handleInput);
+
+// Filtre de recherche de tags
+const filtersTagsInput = Array.from(
+  document.querySelectorAll(".filters input")
+);
+
+filtersTagsInput.forEach((input) => {
+  input.addEventListener("input", (e) => {
+    const searchValue = e.target.value.toLowerCase();
+
+    // Faire fonctionner le filtre de recherche pour chaque catégorie indépendamment
+    const filterParent = e.target.parentElement.parentElement.parentElement;
+    const filtersTagsList = Array.from(filterParent.querySelectorAll("ul li"));
+    filtersTagsList.forEach((filter) => {
+      if (filter.textContent.toLowerCase().includes(searchValue)) {
+        filter.style.display = "block";
+      } else {
+        filter.style.display = "none";
+      }
+    });
+  });
+});
+
 function init() {
   getFilters();
   applyFilters();
@@ -305,5 +361,4 @@ function init() {
 
   getDishes();
 }
-
 init();
