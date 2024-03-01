@@ -13,6 +13,10 @@ main {
   display: flex;
   justify-content: space-between;
   align-items: end;
+
+  h2 {
+    margin-bottom: 1.5rem;
+  }
   &.list-is-open {
     align-items: start;
   }
@@ -24,13 +28,26 @@ main {
     div > p {
       font-size: 1rem;
       padding: 1rem;
+      margin-bottom: 1.5rem;
       background: #fff;
       border-radius: 11px;
       border: none;
       position: relative;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       cursor: pointer;
       &.list-is-open {
         border-radius: 11px 11px 0 0;
+      }
+      i {
+        transition: 0.3s ease-in-out;
+      }
+      &.active {
+        margin-bottom: 0;
+        i {
+          transform: rotate(180deg);
+        }
       }
     }
     .searchform-and-list {
@@ -42,16 +59,27 @@ main {
       border-radius: 0 0 11px 11px;
       form {
         padding: 1rem;
-        input {
-          width: 100%;
-          height: 36px;
-          border: none;
-          border: 1px solid #c6c6c6;
-          border-radius: 2px;
-          outline: $primary-color;
-          padding: 0.5rem;
-          font-size: 14px;
-          color: #7a7a7a;
+        label {
+          position: relative;
+          input {
+            width: 100%;
+            height: 36px;
+            border: none;
+            border: 1px solid #c6c6c6;
+            border-radius: 2px;
+            outline: $primary-color;
+            padding: 0.5rem;
+            font-size: 14px;
+            color: #7a7a7a;
+          }
+          i {
+            position: absolute;
+            top: 50%;
+            right: 1rem;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: $secondary-color;
+          }
         }
       }
       li {
@@ -60,9 +88,25 @@ main {
         color: #1b1b1b;
         font-size: 14px;
         cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        i {
+          color: $primary-color;
+          background-color: #000;
+          border-radius: 50%;
+          padding: 0.25rem 0.3rem 0.2rem 0.3rem;
+          font-size: 0.6rem;
+          display: none;
+        }
         &.active {
           background-color: $primary-color;
           margin-bottom: 1rem;
+          cursor: default;
+          i {
+            display: block;
+            cursor: pointer;
+          }
           &:hover {
             background-color: $primary-color;
           }
@@ -76,12 +120,33 @@ main {
         display: block;
       }
     }
+
+    .filters-actives {
+      li {
+        background-color: $primary-color;
+        padding: 1rem;
+        transition: 0.3s ease-in-out;
+        color: #1b1b1b;
+        font-size: 14px;
+        border-radius: 11px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-block: 1rem;
+        i {
+          cursor: pointer;
+        }
+      }
+    }
   }
 }
 h2.no-results {
   margin: 4rem auto 0;
   span {
     color: darken($color: $primary-color, $amount: 30);
+  }
+  &:empty {
+    display: none;
   }
 }
 .cards-zone {
@@ -145,6 +210,14 @@ h2.no-results {
   main {
     padding: 4rem;
   }
+
+  .filters-and-results {
+    align-items: start;
+    flex-direction: column-reverse;
+    .filters {
+      width: 100%;
+    }
+  }
   .cards-zone {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -154,13 +227,34 @@ h2.no-results {
   main {
     padding: 2rem 1rem;
   }
-  .filters-and-results {
-    flex-direction: column;
-    align-items: start;
-    .filters {
+  header .title-and-searchform {
+    form {
       width: 100%;
-      .searchform-and-list {
-        max-height: 285px;
+      label {
+        input::placeholder {
+          color: transparent;
+        }
+      }
+    }
+    h1 {
+      font-size: 1.75rem;
+      width: 100%;
+    }
+  }
+
+  .filters-and-results {
+    .filters {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+      div > p {
+        margin-block: 0;
+      }
+    }
+    &.list-is-open {
+      .filters {
+        div > p {
+          margin-block: 2rem 1.5rem;
+        }
       }
     }
   }

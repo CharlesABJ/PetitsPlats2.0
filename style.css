@@ -16,6 +16,19 @@ ul {
   list-style: none;
 }
 
+label {
+  position: relative;
+}
+label i.fa-xmark {
+  position: absolute;
+  top: 50%;
+  right: 2.5rem !important;
+  font-size: 0.8rem;
+  transform: translateY(-50%);
+  color: #7a7a7a;
+  cursor: pointer;
+}
+
 header {
   background-image: url("../images/header-banner.png");
   background-repeat: no-repeat;
@@ -69,6 +82,10 @@ header .title-and-searchform form label input::placeholder {
   color: #7a7a7a;
   font-size: 1.2rem;
 }
+header .title-and-searchform form label i.fa-xmark {
+  right: 4.5rem !important;
+  font-size: 1.5rem;
+}
 header .title-and-searchform form button {
   position: absolute;
   top: 50%;
@@ -80,11 +97,14 @@ header .title-and-searchform form button {
   border-radius: 10px;
   background-color: #000;
   cursor: pointer;
-  outline: 2px dashed #ffd15b;
+  transition: 0.2s ease-in-out;
 }
 header .title-and-searchform form button:focus-visible {
   outline-color: #ffd15b;
   outline: 2px dashed #ffd15b;
+}
+header .title-and-searchform form button:hover {
+  background-color: #ffd15b;
 }
 
 main {
@@ -100,6 +120,9 @@ main {
   justify-content: space-between;
   align-items: end;
 }
+.filters-and-results h2 {
+  margin-bottom: 1.5rem;
+}
 .filters-and-results.list-is-open {
   align-items: start;
 }
@@ -112,14 +135,27 @@ main {
 .filters-and-results .filters div > p {
   font-size: 1rem;
   padding: 1rem;
+  margin-bottom: 1.5rem;
   background: #fff;
   border-radius: 11px;
   border: none;
   position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   cursor: pointer;
 }
 .filters-and-results .filters div > p.list-is-open {
   border-radius: 11px 11px 0 0;
+}
+.filters-and-results .filters div > p i {
+  transition: 0.3s ease-in-out;
+}
+.filters-and-results .filters div > p.active {
+  margin-bottom: 0;
+}
+.filters-and-results .filters div > p.active i {
+  transform: rotate(180deg);
 }
 .filters-and-results .filters .searchform-and-list {
   display: none;
@@ -132,7 +168,10 @@ main {
 .filters-and-results .filters .searchform-and-list form {
   padding: 1rem;
 }
-.filters-and-results .filters .searchform-and-list form input {
+.filters-and-results .filters .searchform-and-list form label {
+  position: relative;
+}
+.filters-and-results .filters .searchform-and-list form label input {
   width: 100%;
   height: 36px;
   border: none;
@@ -143,16 +182,40 @@ main {
   font-size: 14px;
   color: #7a7a7a;
 }
+.filters-and-results .filters .searchform-and-list form label i {
+  position: absolute;
+  top: 50%;
+  right: 1rem;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #7a7a7a;
+}
 .filters-and-results .filters .searchform-and-list li {
   padding: 1rem;
   transition: 0.3s ease-in-out;
   color: #1b1b1b;
   font-size: 14px;
   cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.filters-and-results .filters .searchform-and-list li i {
+  color: #ffd15b;
+  background-color: #000;
+  border-radius: 50%;
+  padding: 0.25rem 0.3rem 0.2rem 0.3rem;
+  font-size: 0.6rem;
+  display: none;
 }
 .filters-and-results .filters .searchform-and-list li.active {
   background-color: #ffd15b;
   margin-bottom: 1rem;
+  cursor: default;
+}
+.filters-and-results .filters .searchform-and-list li.active i {
+  display: block;
+  cursor: pointer;
 }
 .filters-and-results .filters .searchform-and-list li.active:hover {
   background-color: #ffd15b;
@@ -163,12 +226,30 @@ main {
 .filters-and-results .filters .searchform-and-list.active {
   display: block;
 }
+.filters-and-results .filters .filters-actives li {
+  background-color: #ffd15b;
+  padding: 1rem;
+  transition: 0.3s ease-in-out;
+  color: #1b1b1b;
+  font-size: 14px;
+  border-radius: 11px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-block: 1rem;
+}
+.filters-and-results .filters .filters-actives li i {
+  cursor: pointer;
+}
 
 h2.no-results {
   margin: 4rem auto 0;
 }
 h2.no-results span {
   color: #c18b00;
+}
+h2.no-results:empty {
+  display: none;
 }
 
 .cards-zone {
@@ -232,6 +313,13 @@ h2.no-results span {
   main {
     padding: 4rem;
   }
+  .filters-and-results {
+    align-items: start;
+    flex-direction: column-reverse;
+  }
+  .filters-and-results .filters {
+    width: 100%;
+  }
   .cards-zone {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -240,15 +328,25 @@ h2.no-results span {
   main {
     padding: 2rem 1rem;
   }
-  .filters-and-results {
-    flex-direction: column;
-    align-items: start;
-  }
-  .filters-and-results .filters {
+  header .title-and-searchform form {
     width: 100%;
   }
-  .filters-and-results .filters .searchform-and-list {
-    max-height: 285px;
+  header .title-and-searchform form label input::placeholder {
+    color: transparent;
+  }
+  header .title-and-searchform h1 {
+    font-size: 1.75rem;
+    width: 100%;
+  }
+  .filters-and-results .filters {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+  .filters-and-results .filters div > p {
+    margin-block: 0;
+  }
+  .filters-and-results.list-is-open .filters div > p {
+    margin-block: 2rem 1.5rem;
   }
   .cards-zone {
     grid-template-columns: 1fr;

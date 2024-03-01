@@ -56,6 +56,12 @@ function createUstensilsList(ustensils) {
     .join("");
 }
 
+function countRecipes(currentRecipes) {
+  const nbOfRecipes = document.querySelector(".nb-of-recipes h2");
+
+  nbOfRecipes.innerHTML = `${currentRecipes.length} recettes`;
+}
+
 function getFilters() {
   const nbOfRecipes = document.querySelector(".nb-of-recipes h2");
 
@@ -93,6 +99,7 @@ function applyFilters() {
   );
 
   getDishes();
+  countRecipes(currentRecipes);
 }
 
 function getActivesFilters() {
@@ -275,6 +282,7 @@ const filtersContainer = document.querySelector(".filters-and-results");
 
 filtersToggle.forEach((filter) => {
   filter.addEventListener("click", () => {
+    filter.classList.toggle("active");
     filtersNatures.forEach((filterNature) => {
       if (
         filterNature.getAttribute("data-attribute") ===
@@ -303,6 +311,27 @@ forms.forEach((form) => {
   form.addEventListener("submit", (e) => e.preventDefault());
 });
 const searchInput = document.getElementById("searchbar");
+
+// Ajouter une croix pour effacer le contenu de l'input
+const allInputs = document.querySelectorAll("input");
+const clearInput = document.createElement("i");
+clearInput.classList.add("fa-solid", "fa-xmark");
+allInputs.forEach((input) => {
+  input.addEventListener("input", (e) => {
+    if (e.target.value.length > 0) {
+      input.parentElement.appendChild(clearInput);
+      clearInput.addEventListener("click", () => {
+        input.value = "";
+        clearInput.remove();
+        currentRecipes = [...recipes];
+        getDishes();
+      });
+    } else {
+      clearInput.remove();
+    }
+    countRecipes(currentRecipes);
+  });
+});
 
 function handleInput(e) {
   const searchValue = e.target.value.toLowerCase();

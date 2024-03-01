@@ -48,6 +48,10 @@ header {
             font-size: 1.2rem;
           }
         }
+        i.fa-xmark {
+          right: 4.5rem !important;
+          font-size: 1.5rem;
+        }
       }
       button {
         position: absolute;
@@ -60,10 +64,14 @@ header {
         border-radius: 10px;
         background-color: #000;
         cursor: pointer;
-        outline: 2px dashed $primary-color;
+
+        transition: 0.2s ease-in-out;
         &:focus-visible {
           outline-color: $primary-color;
           outline: 2px dashed $primary-color;
+        }
+        &:hover {
+          background-color: $primary-color;
         }
       }
     }
