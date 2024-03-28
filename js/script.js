@@ -178,10 +178,9 @@ function handleInput(e) {
   let noResults = document.querySelector(".no-results");
   noResults.innerHTML = "";
   // Si l'utilsateur supprime le contenu de l'input est vide, on réinitialise la liste des recettes
-  if (searchValue === "") {
+  if (searchValue === "" || searchValue.length < 3) {
     currentRecipes = [...recipes];
-  } else if (searchValue.length < 3) {
-    currentRecipes = [...recipes];
+    displayDishes(cardsZone, currentRecipes);
     return;
   }
   currentRecipes = recipes.filter(
