@@ -76,4 +76,8 @@ export function applyFilters(cardsZone, currentRecipes, activeFilters) {
   );
 
   displayDishes(cardsZone, currentRecipes);
+  if (currentRecipes.length === 0) {
+    const noResults = document.querySelector(".no-results");
+    noResults.innerHTML = `Aucune recette ne contient ces critères de recherche.`;
+  }
 }
