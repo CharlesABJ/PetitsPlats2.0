@@ -59,21 +59,81 @@ export function displayDishes(cardsZone, currentRecipes) {
 }
 
 // Fonction pour appliquer les filtres
+// export function applyFilters(cardsZone, currentRecipes, activeFilters) {
+//   currentRecipes = currentRecipes.filter(
+//     (recipe) =>
+//       Array.from(activeFilters.ingredients).every((activeIngredient) =>
+//         recipe.ingredients.some(
+//           (ingredient) => ingredient.ingredient === activeIngredient
+//         )
+//       ) &&
+//       Array.from(activeFilters.appliances).every(
+//         (activeAppliance) => recipe.appliance === activeAppliance
+//       ) &&
+//       Array.from(activeFilters.ustensils).every((activeUstensil) =>
+//         recipe.ustensils.includes(activeUstensil)
+//       )
+//   );
+
+//   displayDishes(cardsZone, currentRecipes);
+// }
+
+// Fonction pour appliquer les filtres
 export function applyFilters(cardsZone, currentRecipes, activeFilters) {
-  currentRecipes = currentRecipes.filter(
-    (recipe) =>
-      Array.from(activeFilters.ingredients).every((activeIngredient) =>
-        recipe.ingredients.some(
-          (ingredient) => ingredient.ingredient === activeIngredient
-        )
-      ) &&
-      Array.from(activeFilters.appliances).every(
-        (activeAppliance) => recipe.appliance === activeAppliance
-      ) &&
-      Array.from(activeFilters.ustensils).every((activeUstensil) =>
-        recipe.ustensils.includes(activeUstensil)
-      )
-  );
+  let filteredRecipes = [];
+
+  for (let i = 0; i < currentRecipes.length; i++) {
+    let recipe = currentRecipes[i];
+    let ingredientsMatch = true;
+    let appliancesMatch = true;
+    let utensilsMatch = true;
+
+    for (const filterIngredient of activeFilters.ingredients) {
+      let ingredientMatch = false;
+      for (let k = 0; k < recipe.ingredients.length; k++) {
+        if (recipe.ingredients[k].ingredient === filterIngredient) {
+          ingredientMatch = true;
+
+          break;
+        }
+      }
+      if (!ingredientMatch) {
+        ingredientsMatch = false;
+        break;
+      }
+    }
+    for (const filterAppliance of activeFilters.appliances) {
+      if (recipe.appliance !== filterAppliance) {
+        appliancesMatch = false;
+        break;
+      }
+    }
+
+    if (ingredientsMatch && appliancesMatch) {
+      for (const filterUstensil of activeFilters.ustensils) {
+        let utensilMatch = false;
+        for (let k = 0; k < recipe.ustensils.length; k++) {
+          if (
+            JSON.stringify(recipe.ustensils[k]) ===
+            JSON.stringify(filterUstensil)
+          ) {
+            utensilMatch = true;
+            break;
+          }
+        }
+        if (!utensilMatch) {
+          utensilsMatch = false;
+          break;
+        }
+      }
+    }
+
+    if (ingredientsMatch && appliancesMatch && utensilsMatch) {
+      filteredRecipes.push(recipe);
+    }
+  }
+
+  currentRecipes = filteredRecipes;
 
   displayDishes(cardsZone, currentRecipes);
 }

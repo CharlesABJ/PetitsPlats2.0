@@ -144,14 +144,14 @@ function deleteFilter(filterType, activeFilters, activeFiltersElements) {
 }
 
 // SEARCHBAR
-// Filtre de recherche de recettes
+// Retirer le comportement par défaut de chaque formulaires
 const forms = document.querySelectorAll("form");
 forms.forEach((form) => {
   form.addEventListener("submit", (e) => e.preventDefault());
 });
 const searchInput = document.getElementById("searchbar");
 
-// Ajouter une croix pour effacer le contenu de l'input
+// Ajouter une croix pour effacer le contenu de chaque input
 const allInputs = document.querySelectorAll("input");
 const clearInput = document.createElement("i");
 clearInput.classList.add("fa-solid", "fa-xmark");
@@ -177,11 +177,10 @@ function handleInput(e) {
   const searchValue = e.target.value.toLowerCase();
   let noResults = document.querySelector(".no-results");
   noResults.innerHTML = "";
-  // Si l'utilsateur supprime le contenu de l'input est vide, on réinitialise la liste des recettes
-  if (searchValue === "") {
+  // Si l'utilsateur supprime le contenu de l'input, on réinitialise la liste des recettes
+  if (searchValue === "" || searchValue.length < 3) {
     currentRecipes = [...recipes];
-  } else if (searchValue.length < 3) {
-    currentRecipes = [...recipes];
+    displayDishes(cardsZone, currentRecipes);
     return;
   }
   currentRecipes = recipes.filter(
