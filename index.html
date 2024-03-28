@@ -21,10 +21,11 @@
             <form method="post">
                 <label for="searchbar">
                     <input id="searchbar" placeholder="Rechercher une recette, un ingrédient, ..." type="text">
-                    <button aria-label="Rechercher" type="submit">
-                        <img src="./images/search-icon.png" alt="loupe">
-                    </button>
+
                 </label>
+                <button aria-label="Rechercher" type="submit">
+                    <img src="./images/search-icon.png" alt="loupe">
+                </button>
             </form>
         </div>
 
@@ -37,7 +38,7 @@
                     <p data-attribute="ingredients"><span>ingredients</span> <i class="fa-solid fa-chevron-down"></i>
                     </p>
                     <div data-attribute="ingredients" class="searchform-and-list">
-                        <form action="" method="get">
+                        <form method="get">
                             <label for="search-ingredients"> <input type="text" name="search-ingredients"
                                     id="search-ingredients"> <i class="fa-solid fa-magnifying-glass"></i></label>
                         </form>
@@ -52,7 +53,7 @@
                 <div>
                     <p data-attribute="appliances"><span>Appareils</span><i class="fa-solid fa-chevron-down"></i></p>
                     <div data-attribute="appliances" class="searchform-and-list">
-                        <form action="" method="get">
+                        <form method="get">
                             <label for="search-appliances"> <input type="text" name="search-appliances"
                                     id="search-appliances">
                                 <i class="fa-solid fa-magnifying-glass"></i></label>
@@ -67,7 +68,7 @@
                 <div>
                     <p data-attribute="ustensils"><span>Ustensiles</span><i class="fa-solid fa-chevron-down"></i></p>
                     <div data-attribute="ustensils" class="searchform-and-list">
-                        <form action="" method="get">
+                        <form method="get">
                             <label for="search-ustensils"> <input type="text" name="search-ustensils"
                                     id="search-ustensils"> <i class="fa-solid fa-magnifying-glass"></i></label>
                         </form>
@@ -88,7 +89,8 @@
         <div class="cards-zone"> </div>
     </main>
 
-    <script type="module" src="script.js"></script>
+    <script type="module" src="./js/script.js"></script>
+
 </body>
 
 
