@@ -58,27 +58,6 @@ export function displayDishes(cardsZone, currentRecipes) {
   console.timeEnd("getDishes");
 }
 
-// Fonction pour appliquer les filtres
-// export function applyFilters(cardsZone, currentRecipes, activeFilters) {
-//   currentRecipes = currentRecipes.filter(
-//     (recipe) =>
-//       Array.from(activeFilters.ingredients).every((activeIngredient) =>
-//         recipe.ingredients.some(
-//           (ingredient) => ingredient.ingredient === activeIngredient
-//         )
-//       ) &&
-//       Array.from(activeFilters.appliances).every(
-//         (activeAppliance) => recipe.appliance === activeAppliance
-//       ) &&
-//       Array.from(activeFilters.ustensils).every((activeUstensil) =>
-//         recipe.ustensils.includes(activeUstensil)
-//       )
-//   );
-
-//   displayDishes(cardsZone, currentRecipes);
-// }
-
-// Fonction pour appliquer les filtres
 export function applyFilters(cardsZone, currentRecipes, activeFilters) {
   let filteredRecipes = [];
 
