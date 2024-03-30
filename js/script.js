@@ -1,4 +1,4 @@
-import { recipes } from "./recipes.js";
+import { recipes } from "../../data/recipes.js";
 import { getIngredients, getAppliances, getUstensils } from "./getFilters.js";
 import {
   createIngredientsList,
@@ -79,7 +79,7 @@ function getActivesFilters() {
   });
 
   filters.forEach((filter) => {
-    filter.addEventListener("click", function () {
+    filter.addEventListener("click", function() {
       filter.classList.toggle("active");
 
       filterTypes.forEach((filterType) => {
@@ -127,7 +127,7 @@ function deleteFilter(filterType, activeFilters, activeFiltersElements) {
   );
 
   croceActiveFilters.forEach((croceActiveFilter) => {
-    croceActiveFilter.addEventListener("click", function () {
+    croceActiveFilter.addEventListener("click", function() {
       const filterToDelete = croceActiveFilter.parentElement.getAttribute(
         `filter-${filterType}-attribute`
       );
@@ -163,7 +163,6 @@ allInputs.forEach((input) => {
         input.value = "";
         clearInput.remove();
         currentRecipes = [...recipes];
-
         displayDishes(cardsZone, currentRecipes);
       });
     } else {
