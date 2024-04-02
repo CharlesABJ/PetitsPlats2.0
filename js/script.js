@@ -195,6 +195,7 @@ function handleInput(e) {
     noResults.innerHTML = `Aucune recette ne contient ‘<span>${e.target.value}</span>’ vous pouvez chercher « <span>tarte aux pommes</span> », « <span>poisson</span> », etc.`;
   }
   displayDishes(cardsZone, currentRecipes);
+  displayFilters();
 }
 
 searchInput.addEventListener("input", handleInput);
