@@ -196,6 +196,8 @@ function handleInput(e) {
   }
   displayDishes(cardsZone, currentRecipes);
   displayFilters();
+  applyFilters(cardsZone, currentRecipes, activeFilters);
+  getActivesFilters();
 }
 
 searchInput.addEventListener("input", handleInput);
